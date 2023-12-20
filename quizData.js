@@ -1,3 +1,12 @@
+/*
+
+1.  Question Generaon: 
+ •  Create a pool of 50 quesons on various topics (e.g., Science, History, Math).
+ •  Each queson should have a unique ID, the queson itself, 
+  mulple choices (4 opons), and the correct answer.
+
+*/
+
 const questionsData = [
   {
     id: 1,

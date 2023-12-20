@@ -3,11 +3,20 @@ import Quiz from './quiz.js';
 class QuizApp {
   constructor() {
     this.quiz = new Quiz();
+
+    /*
+    •  Design a web-based interface using HTML, CSS, and JavaScript.
+    */
+
+    // Have references from index.html components
     this.questionElement = document.getElementById('question');
     this.choicesElement = document.getElementById('choices');
     this.scoreElement = document.getElementById('score');
     this.submitButton = document.getElementById('submit-btn');
 
+
+
+    // 'Submit Answer' button handler
     this.submitButton.addEventListener('click', () => this.handleAnswerSubmission());
     this.updateScore();
 
@@ -29,33 +38,11 @@ class QuizApp {
     this.showQuestion();
   }  
 
-  showQuestion() {
-    const currentQuestion = this.quiz.getCurrentQuestion();
-
-    this.questionElement.textContent = currentQuestion.question;
-
-    this.choicesElement.innerHTML = '';
-    currentQuestion.choices.forEach((choice, index) => {
-      const li = document.createElement('li');
-      const input = document.createElement('input');
-      input.type = 'checkbox'; // Change input type to checkbox
-
-      input.id = `choice-${index}`;
-      li.appendChild(input);
-      const label = document.createElement('label');
-      label.textContent = choice;
-      label.setAttribute('for', `choice-${index}`);
-      li.appendChild(label);
-
-      this.choicesElement.appendChild(li);
-    });
-  }
-
   checkAnswer() {
+    // Get the current question displayed in the FrontEnd
     const currentQuestion = this.quiz.getCurrentQuestion();
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-    // const selectedIndexes = Array.from(checkboxes).map(checkbox => parseInt(checkbox.id.replace('choice-', ''), 10));
 
+    // Get the checkBoxes the user has checked 
     const selectedIndexes = this.getSelectedIndexes();
     
     // Check if the user has selected any option
@@ -64,10 +51,13 @@ class QuizApp {
       return;
     }
     
+    // Verifiy if the user has made good choices when he checked the answers
     const isCorrect = currentQuestion.areCorrect(selectedIndexes);
 
+    // We update the user's score
     this.quiz.updateUserScore(isCorrect);
 
+    // Update the Frontend user's score 
     this.updateScore();
 
     // If we still have questions left to be answered
@@ -80,16 +70,63 @@ class QuizApp {
     }
   }
 
+  showQuestion() {
+
+    /* 
+    
+    The interface should display a random question from the pool with multiple-choice options.
+    
+    */
+
+    // We display the question together with it's answers
+
+    // Get the current question
+    const currentQuestion = this.quiz.getCurrentQuestion();
+    // We show it in the FrontEnd
+    this.questionElement.textContent = currentQuestion.question;
+
+    // Restart everytime the answers list, to display the new ones
+    this.choicesElement.innerHTML = '';
+
+    // We iterate through our choices := 4
+    currentQuestion.choices.forEach((choice, index) => {
+      // Create a list of 'input' type, and make it a list of 'checkboxes'
+      const li = document.createElement('li');
+      const input = document.createElement('input');
+      // Change input type to checkbox
+      input.type = 'checkbox';
+      input.id = `choice-${index}`;
+
+      // To each element from LIST, we append the checkbox 
+      li.appendChild(input);
+
+      // Assign to every checkbox element, a label to know what
+      // is the possible answer
+      const label = document.createElement('label');
+      label.textContent = choice;
+
+      label.setAttribute('for', `choice-${index}`);
+      li.appendChild(label);
+
+      // Every element of type 'li', we append it as child to form a bigger list, inside de 'ul' component
+      this.choicesElement.appendChild(li);
+    });
+  }
+
+
   // We have to check if the user has checked any checkboxes
   getSelectedIndexes() {
+    // Take all the checkboxes from 'ul' -> 'li'
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     const selectedIndexes = [];
 
     checkboxes.forEach((checkbox, index) => {
+      // Verify if the answers are checked <=> out checkboxes are checked 
       if (checkbox.checked) {
         selectedIndexes.push(index);
       }
     });
+    // We then make a list of checked checkboxes, and verify if the user has chosen the right answers
     return selectedIndexes;
   }
 
