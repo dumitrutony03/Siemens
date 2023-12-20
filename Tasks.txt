@@ -1,0 +1,116 @@
+Tasks:
+
+1.  Logical Design:
+
+	•  Devise a plan for organizing the questions, their structure, and the user's progress. 
+	
+	-> Displaying questions from various categories (most of them are based on: Science and Math for simplicity).
+	-> Keeping user's progress by tracking which questions they've checked the right way.
+	
+	•  Write a logical outline or pseudocode detailing how the system will generate 
+	   and present questions while maintaining scores and ensuring no repetition.
+	   
+	-> Initialize a pool of questions into 'quizData.js' file, instead of a JSON file, for simplicity.
+	-> Shuffle questions and ensure no repetition of questions until all are answered, ( using Fisher-Yates algorithm ).
+	-> Present questions one by one, recording user responses.
+	-> Verify the user's checked boxes ( for each question, ofc ), and update the score if there is a right answer.
+	-> When all questions are answered, we show the user's score, and we show him an 'Reset' button, instead of 'Submit Answer' button.
+	
+	
+2.  Algorithm Implementation (Partial Code): 
+
+	!!!! Very important:
+		this.quiz.method() from 'quiz.js' - handles the information that will be displayed in the FrontEnd, using the 'quizApp.js' file's methods
+
+	•  Write JavaScript functions to generate random questions, display them on the interface, receive user input, and calculate the score. 
+	
+	   Method to shuffle our questions, and the explanation:
+  
+       The shuffleQuestions method uses the Fisher-Yates shuffle algorithm to shuffle the array of questions randomly.
+	   It iterates through the array from the end to the beginning and, at each iteration, swaps the current element with a randomly selected element that comes before it.
+	   This process effectively shuffles the questions randomly.
+	  
+	  shuffleQuestions() {
+		for (let i = this.questions.length - 1; i > 0; i--) {
+		  const j = Math.floor(Math.random() * (i + 1));
+		  [this.questions[i], this.questions[j]] = [this.questions[j], this.questions[i]];
+		}
+	  }
+	
+	-> Everytime after we checked the user's answers, we update the score is he/she is right, update the UI with the new score,
+	   and then we check if we still have questions left to answer;
+	-> If so, we go to the next question by incrementing the currentQuestionIndex (which initially is set to := 0),
+	we call a function showQuestion() and calls a question from the shuffledQuestions.
+	
+	// Check if the 
+	const currentQuestion = this.quiz.getCurrentQuestion();
+	
+	// Get the checkboxes that the user had checked 
+	const selectedIndexes = this.getSelectedIndexes();
+
+	// Verify if those checkboxes are right checked
+	const isCorrect = currentQuestion.areCorrect(selectedIndexes);
+
+    // We update the user's score
+    this.quiz.updateUserScore(isCorrect);
+	
+	// Update the UI's score:
+	this.updateScore();
+	
+	updateScore() {
+    // Update the UI everytime we have passed a Question
+    this.scoreElement.textContent = `Score: ${this.quiz.getUserScore()}/${this.quiz.getTotalQuestions()}`;
+	}
+
+3.  Class and Database Representaon (Explanaon Only): 
+•  Explain how you would represent the structure of questions, choices, and user progress in a class diagram and database schema. 
+
+	For Question objects I would have this structure:
+		Question Class:
+			Attributes: ('-' means that is PRIVATE)
+				- questionID: An unique identifier for each question and I would make it Primary Key.
+				- question: The question's text.
+				- choices: An array or list containing the possible answers for our question.
+				- correctAnswer: Index(1 or more) of the correct answer(answers) for our choices.
+			Methods:
+				checkUsersAnswers(); Method to check if user's answers are valid for every question.
+				
+		User Class:
+			Attributes: 
+				- userID: An unique identifier for each user and I would make it Primary Key.
+				- name: User's name
+				- score: User's score 
+			Methods:
+				calculateScore(); Update and returns the user's score based on their right answers.				
+		
+
+•  Describe the relationships between entities, emphasizing the flow of data during the quiz.
+
+	-> A question can have multiple users and a user can answer multiple questions => Many - to - Many relationship 
+    -> We need a junction table to achieve this type o relationship, we will call it UsersQuestionsReponses.	
+	
+	Table: Questions
+		Columns:
+			questionID: An unique identifier for each question and I would make it Primary Key.
+			question: The question's text.
+			choices: An array or list containing the possible answers for our question.
+			correctAnswer: Index(1 or more) of the correct answer(answers) for our choices.
+			
+	Table: Users
+		Columns:
+			userID: An unique identifier for each user and I would make it Primary Key.
+			name: User's name
+			score: User's score 
+			
+	Table: UsersQuestionsReponses
+		Columns:
+			id Primary Key because is the unique identifier for each user response.
+			userId (Foreign Key): Reference to the User table, indicating the user who responded.
+			questionId (Foreign Key): Reference to the Questions table, indicating the question being answered.
+			response: User's choices for the question with questionID.
+			
+	Data Flow:
+
+	When a user answers a question, a new record is created in the UsersQuestionsReponses table, capturing the user's choices.
+	The User's score is calculated and updated based on the correct answers, after each question answered.
+	The shuffledQuestions() method ensures that questions are displayed in a randomized order without repetition.

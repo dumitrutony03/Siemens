@@ -18,7 +18,7 @@ class Quiz {
   /* 
     4.  Logic and Algorithm: •  
     Develop a JavaScript algorithm to randomly select quesons
-    without repeang unl all quesons have been answered. 
+    without repeang until all questions have been answered. 
   */
 
   /*

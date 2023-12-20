@@ -14,8 +14,6 @@ class QuizApp {
     this.scoreElement = document.getElementById('score');
     this.submitButton = document.getElementById('submit-btn');
 
-
-
     // 'Submit Answer' button handler
     this.submitButton.addEventListener('click', () => this.handleAnswerSubmission());
     this.updateScore();
