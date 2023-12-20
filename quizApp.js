@@ -23,7 +23,6 @@ class QuizApp {
   handleAnswerSubmission() {
     this.checkAnswer();
   }
-
   
   startQuiz() {
     this.quiz.shuffleQuestions();
@@ -40,6 +39,7 @@ class QuizApp {
       const li = document.createElement('li');
       const input = document.createElement('input');
       input.type = 'checkbox'; // Change input type to checkbox
+
       input.id = `choice-${index}`;
       li.appendChild(input);
       const label = document.createElement('label');
@@ -54,8 +54,16 @@ class QuizApp {
   checkAnswer() {
     const currentQuestion = this.quiz.getCurrentQuestion();
     const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-    const selectedIndexes = Array.from(checkboxes).map(checkbox => parseInt(checkbox.id.replace('choice-', ''), 10));
+    // const selectedIndexes = Array.from(checkboxes).map(checkbox => parseInt(checkbox.id.replace('choice-', ''), 10));
 
+    const selectedIndexes = this.getSelectedIndexes();
+    
+    // Check if the user has selected any option
+    if (selectedIndexes.length === 0) {
+      alert("Please select at least one answer before submitting.");
+      return;
+    }
+    
     const isCorrect = currentQuestion.areCorrect(selectedIndexes);
 
     this.quiz.updateUserScore(isCorrect);
@@ -70,6 +78,19 @@ class QuizApp {
       this.updateButtonVisibility();
       this.showResult();
     }
+  }
+
+  // We have to check if the user has checked any checkboxes
+  getSelectedIndexes() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const selectedIndexes = [];
+
+    checkboxes.forEach((checkbox, index) => {
+      if (checkbox.checked) {
+        selectedIndexes.push(index);
+      }
+    });
+    return selectedIndexes;
   }
 
   Submit_Reset_BtnVisibility() {

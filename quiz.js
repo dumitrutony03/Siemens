@@ -1,10 +1,10 @@
 import Question from './question.js';
-import questionsData from './quizData.js';
+import quizData from './quizData.js';
 
 class Quiz {
   constructor() {
     // Make sure questions is an array of Question instances
-    this.questions = questionsData.map(questionData => new Question(questionData.id, questionData.question, questionData.choices, questionData.correctAnswers));
+    this.questions = quizData.map(quizData => new Question(quizData.id, quizData.question, quizData.choices, quizData.correctAnswers));
     this.currentQuestionIndex = 0;
     this.userScore = 0;
   }

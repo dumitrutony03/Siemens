@@ -3,7 +3,7 @@
 import QuizApp from './quizApp.js';
 
 function init() {
-  // Initialize the QuizApp
+  // Initialize the QuizAp
   const quizApp = new QuizApp();  
 }
 
