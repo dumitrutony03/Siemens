@@ -15,6 +15,12 @@ class Quiz {
     this.userScore = 0;
   }
 
+  /* 
+    4.  Logic and Algorithm: •  
+    Develop a JavaScript algorithm to randomly select quesons
+    without repeang unl all quesons have been answered. 
+  */
+
   /*
    Method to shuffle our questions, and the explanation:
   

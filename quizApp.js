@@ -114,6 +114,8 @@ class QuizApp {
   }
 
 
+  /* Users can select an opon and submit their answer.*/
+
   // We have to check if the user has checked any checkboxes
   getSelectedIndexes() {
     // Take all the checkboxes from 'ul' -> 'li'
@@ -142,6 +144,12 @@ class QuizApp {
     this.submitButton.style.display = isQuizCompleted ? 'none' : 'block';
     this.resetButton.style.display = isQuizCompleted ? 'block' : 'none';
   }
+
+  /*
+  3.  Scoring System: 
+  •  Implement a scoring system to calculate the user's score based on correct answers. 
+  •  Show the user's score aer compleng the quiz.
+  */
 
   updateScore() {
     // Update the UI everytime we have passed a Question
