@@ -1,0 +1,25 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  #quiz-container {
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+  }
+  
+  #choices {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  #choices li {
+    margin: 10px;
+    cursor: pointer;
+  }
+  
+  #choices li label {
+    display: block;
+  }
+  

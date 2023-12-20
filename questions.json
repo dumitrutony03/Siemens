@@ -1,0 +1,21 @@
+
+[
+  {
+    "id": 1,
+    "question": "What is the capital of France?",
+    "choices": ["Berlin", "Madrid", "Paris", "Rome"],
+    "correctAnswers": ["Paris"],
+  
+  
+    "id": 2,
+    "question": "Which planets are considered gas giants?",
+    "choices": ["Mars", "Jupiter", "Saturn", "Earth"],
+    "correctAnswers": ["Jupiter", "Saturn"],
+  
+  
+    "id": 3,
+    "question": "Which programming language is known for its use in web development?",
+    "choices": ["Java", "Python", "JavaScript", "C++"],
+    "correctAnswers": ["JavaScript"]
+  }
+]
